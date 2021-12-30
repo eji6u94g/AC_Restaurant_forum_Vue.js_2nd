@@ -7,11 +7,7 @@
       <div v-for="user in users" :key="user.id" class="col-3">
         <a href="#">
           <img
-            :src="
-              user.image
-                ? user.image
-                : 'http://via.placeholder.com/300x300?text=No+Image'
-            "
+            :src="user.image | emptyImageFilter"
             width="140px"
             height="140px"
           />
@@ -45,53 +41,13 @@
 
 <script>
 import Navtabs from "../components/Navtabs.vue";
-
-const dummyData = {
-  users: [
-    {
-      id: 1,
-      name: "root",
-      email: "root@example.com",
-      password: "$2a$10$vr7Byde8WjcCaI0VlTNjCuLCerpE8wiGo8ri2.ZSfAFrDg8k4wLbO",
-      isAdmin: true,
-      image: null,
-      createdAt: "2021-11-12T08:51:33.000Z",
-      updatedAt: "2021-11-12T08:51:33.000Z",
-      Followers: [],
-      FollowerCount: 0,
-      isFollowed: false,
-    },
-    {
-      id: 2,
-      name: "user1",
-      email: "user1@example.com",
-      password: "$2a$10$aKzWxsKppDwcpOuFgLwJquMpx62ju.jo3hQguSRdTx/0dYD9nH0iW",
-      isAdmin: false,
-      image: null,
-      createdAt: "2021-11-12T08:51:33.000Z",
-      updatedAt: "2021-11-12T08:51:33.000Z",
-      Followers: [],
-      FollowerCount: 0,
-      isFollowed: false,
-    },
-    {
-      id: 3,
-      name: "user2",
-      email: "user2@example.com",
-      password: "$2a$10$T6xw1J4f5CSva9DVTszSb.0kWEP7XSzVj.Xhp1xpQ7SmDiDPOtx3i",
-      isAdmin: false,
-      image: null,
-      createdAt: "2021-11-12T08:51:33.000Z",
-      updatedAt: "2021-11-12T08:51:33.000Z",
-      Followers: [],
-      FollowerCount: 0,
-      isFollowed: false,
-    },
-  ],
-};
+import { emptyImageFilter } from "./../utils/emptyImageFilter";
+import usersAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
 
 export default {
   name: "UsersTop",
+  mixins: [emptyImageFilter],
   components: {
     Navtabs,
   },
@@ -101,26 +57,73 @@ export default {
     };
   },
   methods: {
-    fetchUsers() {
-      this.users = dummyData.users;
-    },
-    followUser(userId) {
-      this.users = this.users.map((_user) => {
-        if (_user.id === userId) {
-          return { ..._user, isFollowed: true };
-        } else {
-          return { ..._user };
+    async fetchUsers() {
+      try {
+        const res = await usersAPI.getUsersTop();
+        if (res.statusText !== "OK") {
+          throw new Error(res.statusText);
         }
-      });
+        this.users = res.data.users.map((user) => ({
+          id: user.id,
+          image: user.image,
+          name: user.name,
+          FollowerCount: user.FollowerCount,
+          isFollowed: user.isFollowed,
+        }));
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "Can't get Users information. Please try again latter.",
+        });
+      }
     },
-    unFollowUser(userId) {
-      this.users = this.users.map((_user) => {
-        if (_user.id === userId) {
-          return { ..._user, isFollowed: false };
-        } else {
-          return { ..._user };
+    async followUser(userId) {
+      try {
+        const { data } = await usersAPI.followUser({ userId });
+        if (data.status !== "success") {
+          throw new Error(data.message);
         }
-      });
+        this.users = this.users.map((_user) => {
+          if (_user.id === userId) {
+            return {
+              ..._user,
+              FollowerCount: _user.FollowerCount + 1,
+              isFollowed: true,
+            };
+          } else {
+            return _user;
+          }
+        });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "Can't follow users. Please try again latter.",
+        });
+      }
+    },
+    async unFollowUser(userId) {
+      try {
+        const { data } = await usersAPI.unfollowUser({ userId });
+        if (data.status !== "success") {
+          throw new Error(data.message);
+        }
+        this.users = this.users.map((_user) => {
+          if (_user.id === userId) {
+            return {
+              ..._user,
+              FollowerCount: _user.FollowerCount - 1,
+              isFollowed: false,
+            };
+          } else {
+            return _user;
+          }
+        });
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "Can't unfollow users. Please try again latter.",
+        });
+      }
     },
   },
   created() {

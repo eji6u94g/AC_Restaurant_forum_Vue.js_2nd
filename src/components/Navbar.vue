@@ -17,17 +17,71 @@
     <div id="navbarSupportedContent" class="navbar-collapse collapse">
       <div class="ml-auto d-flex align-items-center">
         <!-- is user is admin -->
-        <router-link to="#" class="text-white mr-3"> 管理員後台 </router-link>
+        <router-link
+          v-if="currentUser.isAdmin"
+          to="/admin/restaurants"
+          class="text-white mr-3"
+        >
+          管理員後台
+        </router-link>
 
         <!-- is user is login -->
-        <router-link to="#" class="text-white mr-3"> 使用者 您好 </router-link>
-        <button
-          type="button"
-          class="btn btn-sm btn-outline-success my-2 my-sm-0"
-        >
-          登出
-        </button>
+        <template v-if="isAuthenticated">
+          <router-link
+            :to="{ name: 'user', params: { userid: currentUser.id } }"
+            class="text-white mr-3"
+          >
+            {{ currentUser.name || " 使用者" }} 您好
+          </router-link>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-success my-2 my-sm-0"
+          >
+            登出
+          </button>
+        </template>
       </div>
     </div>
   </nav>
 </template>
+
+<script>
+const dummyData = {
+  currentUser: {
+    id: 1,
+    name: "管理者",
+    email: "root@example.com",
+    image: "https://i.pravatar.cc/300",
+    isAdmin: true,
+  },
+  isAuthenticated: true,
+};
+
+export default {
+  name: "Navbar",
+  data() {
+    return {
+      currentUser: {
+        id: -1,
+        name: "",
+        email: "",
+        image: "",
+        isAdmin: false,
+      },
+      isAuthenticated: false,
+    };
+  },
+  methods: {
+    fetchCurrentUser() {
+      this.currentUser = {
+        ...this.currentUser,
+        ...dummyData.currentUser,
+      };
+      this.isAuthenticated = dummyData.isAuthenticated;
+    },
+  },
+  created() {
+    this.fetchCurrentUser();
+  },
+};
+</script>
