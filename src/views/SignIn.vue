@@ -79,16 +79,19 @@ export default {
 
         this.isProcessing = true;
 
-        const res = await authorizationAPI.signIn({
+        const { data } = await authorizationAPI.signIn({
           email: this.email,
           password: this.password,
         });
-        const { data } = res;
 
         if (data.status !== "success") {
           throw new Error(data.message);
         }
         localStorage.setItem("token", data.token);
+
+        //透過vuex setCurrentUser將user info存到vuex
+        this.$store.commit("setCurrentUser", data.user);
+
         this.$router.push("restaurants");
       } catch (e) {
         this.isProcessing = false;
@@ -99,6 +102,7 @@ export default {
         });
         console.log(e);
       }
+    },
   },
 };
 </script>
