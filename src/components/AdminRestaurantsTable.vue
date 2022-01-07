@@ -69,26 +69,25 @@ export default {
         Toast.fire({
           icon: "error",
           title:
-            "Can't get information of restaurants. Please try again latter.",
+            "Can't get information of restaurants. Please try again later.",
         });
       }
     },
     async deleteRestaurant(restaurantId) {
       try {
-        const {data} = await adminAPI.restaurants.delete(restaurantId);
-        if(data.status !== "success"){
-          throw new Error(data.message)
+        const { data } = await adminAPI.restaurants.delete(restaurantId);
+        if (data.status !== "success") {
+          throw new Error(data.message);
         }
         this.restaurants = this.restaurants.filter(
-        (restaurant) => restaurant.id !== restaurantId
-      );
+          (restaurant) => restaurant.id !== restaurantId
+        );
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "Can't delete this restaurant. Please try again latter.",
+          title: "Can't delete this restaurant. Please try again later.",
         });
       }
-      
     },
   },
 };

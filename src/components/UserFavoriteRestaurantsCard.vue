@@ -8,7 +8,7 @@
         :to="{ name: 'restaurant', params: { id: restaurant.id } }"
       >
         <img
-          :src="restaurant.image | emptyImageFilter"
+          :src="restaurant.image | emptyImage"
           width="60"
           height="60"
           class="avatar"

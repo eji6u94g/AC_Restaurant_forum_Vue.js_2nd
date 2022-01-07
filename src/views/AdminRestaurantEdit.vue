@@ -65,7 +65,7 @@ export default {
         Toast.fire({
           icon: "error",
           title:
-            "Can't get information of this restaurant. Please try again latter.",
+            "Can't get information of this restaurant. Please try again later.",
         });
       }
     },
@@ -85,7 +85,7 @@ export default {
         Toast.fire({
           icon: "error",
           title:
-            "Can't update information of this restaurant. Please try again latter.",
+            "Can't update information of this restaurant. Please try again later.",
         });
       }
     },

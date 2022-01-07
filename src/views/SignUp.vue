@@ -110,7 +110,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "Can't sign up. Please try again latter.",
+          title: "Can't sign up. Please try again later.",
         });
       }
     },

@@ -100,7 +100,7 @@ export default {
         Toast.fire({
           icon: "error",
           title:
-            "Can't get information of restaurants. Please try again latter.",
+            "Can't get information of restaurants. Please try again later.",
         });
       }
     },
@@ -124,7 +124,7 @@ export default {
         Toast.fire({
           icon: "error",
           title:
-            "Can't add this restaurant to Favorite list. Please try again latter.",
+            "Can't add this restaurant to Favorite list. Please try again later.",
         });
       }
     },
@@ -148,7 +148,7 @@ export default {
         Toast.fire({
           icon: "error",
           title:
-            "Can't delete this restaurant from Favorite list. Please try again latter.",
+            "Can't delete this restaurant from Favorite list. Please try again later.",
         });
       }
     },

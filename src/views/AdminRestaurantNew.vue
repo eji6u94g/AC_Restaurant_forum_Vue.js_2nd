@@ -38,7 +38,7 @@ export default {
         this.isProcessing = false;
         Toast.fire({
           icon: "error",
-          title: "Can't create new restaurant. Please try again latter.",
+          title: "Can't create new restaurant. Please try again later.",
         });
       }
     },

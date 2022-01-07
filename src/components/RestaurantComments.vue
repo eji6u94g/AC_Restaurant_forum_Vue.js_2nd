@@ -31,16 +31,8 @@
 
 <script>
 import { fromNowFilter } from "../utils/fromNow";
-
-const dummyUser = {
-  currentUser: {
-    id: 1,
-    name: "root",
-    email: "root@example.com",
-    isAdmin: true,
-  },
-  isAuthenticated: true,
-};
+import commentsAPI from "../apis/comments";
+import { Toast } from "../utils/helpers";
 
 export default {
   name: "RestaurantComments",
@@ -49,17 +41,25 @@ export default {
       type: Array,
       required: true,
     },
-  },
-  data() {
-    return {
-      currentUser: dummyUser.currentUser,
-    };
+    currentUser: {
+      type: Object,
+      required: true,
+    },
   },
   mixins: [fromNowFilter],
   methods: {
-    handleDeleteButtonClicked(commentId) {
-      console.log("handleDeleteButtonClicked", commentId);
-      this.$emit("after-delete-comment", commentId);
+    async handleDeleteButtonClicked(commentId) {
+      try {
+        const { data } = await commentsAPI.delete({ commentId });
+        console.log(data);
+        if (data.status !== "success") return new Error(data.message);
+        this.$emit("after-delete-comment", commentId);
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "Can't delete this comment. Please try again later.",
+        });
+      }
     },
   },
 };

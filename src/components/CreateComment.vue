@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import { v4 as uuidv4 } from "uuid";
+import commentsAPI from "../apis/comments";
+import { Toast } from "../utils/helpers";
 
 export default {
   name: "CreateComment",
@@ -24,22 +25,33 @@ export default {
       required: true,
     },
   },
-  methods: {
-    handleSubmit() {
-      console.log("handleSubmit", this.text);
-      // TODO: 向 API 發送 POST 請求
-      // 伺服器新增 Comment 成功後...
-      this.$emit("after-create-comment", {
-        commentId: uuidv4(),
-        restaurantId: this.restaurantId,
-        text: this.text,
-      });
-    },
-  },
   data() {
     return {
       text: "",
     };
+  },
+  methods: {
+    async handleSubmit() {
+      try {
+        const formData = {
+          restaurantId: this.restaurantId,
+          text: this.text,
+        };
+        const { data } = await commentsAPI.create({ formData });
+        if (data.status !== "success") return new Error(data.message);
+        this.$emit("after-create-comment", {
+          commentId: data.commentId,
+          restaurantId: this.restaurantId,
+          text: this.text,
+        });
+        this.text = "";
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "Can't create new comments. Please try again later.",
+        });
+      }
+    },
   },
 };
 </script>

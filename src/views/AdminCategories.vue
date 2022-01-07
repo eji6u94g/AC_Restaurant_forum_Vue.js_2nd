@@ -127,7 +127,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "Can't get category list. Please try again latter.",
+          title: "Can't get category list. Please try again later.",
         });
       }
     },
@@ -151,7 +151,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "Can't create new category. Please try again latter",
+          title: "Can't create new category. Please try again later",
         });
       }
     },
@@ -167,7 +167,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "Can't delete category. Please try again latter",
+          title: "Can't delete category. Please try again later",
         });
       }
     },
@@ -193,7 +193,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "Can't update category. Please try again latter.",
+          title: "Can't update category. Please try again later.",
         });
       }
     },

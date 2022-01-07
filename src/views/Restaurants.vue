@@ -91,7 +91,7 @@ export default {
         console.log(error);
         Toast.fire({
           icon: "error",
-          title: "Can't reach server. Please try again latter.",
+          title: "Can't reach server. Please try again later.",
         });
       }
     },

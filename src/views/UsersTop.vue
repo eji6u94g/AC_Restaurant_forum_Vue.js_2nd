@@ -69,7 +69,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "Can't get Users information. Please try again latter.",
+          title: "Can't get Users information. Please try again later.",
         });
       }
     },
@@ -93,7 +93,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "Can't follow users. Please try again latter.",
+          title: "Can't follow users. Please try again later.",
         });
       }
     },
@@ -117,7 +117,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "Can't unfollow users. Please try again latter.",
+          title: "Can't unfollow users. Please try again later.",
         });
       }
     },

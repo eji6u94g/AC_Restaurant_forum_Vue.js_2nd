@@ -51,7 +51,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title: "Server is busy. Please try again latter",
+          title: "Server is busy. Please try again later",
         });
       }
     },

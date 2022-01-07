@@ -2,11 +2,7 @@
   <div class="card mb-3">
     <div class="row no-gutters">
       <div class="col-md-4">
-        <img
-          :src="profile.image | emptyImageFilter"
-          width="300px"
-          height="300px"
-        />
+        <img :src="profile.image | emptyImage" width="300px" height="300px" />
       </div>
       <div class="col-md-8">
         <div class="card-body">
@@ -28,14 +24,32 @@
               <strong>{{ profile.Followers.length }}</strong> followers (追隨者)
             </li>
           </ul>
-          <p>
+          <template v-if="isCurrentUser">
             <router-link
               :to="{ name: 'user-edit', params: { userid: profile.id } }"
               ><button type="submit" class="btn btn-primary">
                 edit
               </button></router-link
             >
-          </p>
+          </template>
+          <template v-else>
+            <button
+              v-if="isFollowed"
+              type="button"
+              class="btn btn-danger"
+              @click.stop.prevent="deleteFollowing(profile.id)"
+            >
+              取消追蹤
+            </button>
+            <button
+              v-else
+              type="button"
+              class="btn btn-primary"
+              @click.stop.prevent="addFollowing(profile.id)"
+            >
+              追蹤
+            </button>
+          </template>
         </div>
       </div>
     </div>
@@ -44,6 +58,8 @@
 
 <script>
 import { emptyImageFilter } from "../utils/emptyImageFilter.js";
+import usersAPI from "../apis/users";
+import { Toast } from "../utils/helpers";
 
 export default {
   name: "UserProfileCard",
@@ -52,6 +68,51 @@ export default {
     profile: {
       type: Object,
       required: true,
+    },
+    isCurrentUser: {
+      type: Boolean,
+      required: true,
+    },
+    initialIsFollowed: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      isFollowed: this.initialIsFollowed,
+    };
+  },
+  watch: {
+    initialIsFollowed(newValue) {
+      console.log(newValue);
+      this.isFollowed = newValue;
+    },
+  },
+  methods: {
+    async addFollowing(userId) {
+      try {
+        const { data } = await usersAPI.followUser({ userId });
+        if (data.status !== "success") return new Error(data.message);
+        this.$emit("afterFollowingButtonClick");
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "Can't follow this User. Please try again later.",
+        });
+      }
+    },
+    async deleteFollowing(userId) {
+      try {
+        const { data } = await usersAPI.unfollowUser({ userId });
+        if (data.status !== "success") return new Error(data.message);
+        this.$emit("afterFollowingButtonClick");
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "Can't follow this User. Please try again later.",
+        });
+      }
     },
   },
 };

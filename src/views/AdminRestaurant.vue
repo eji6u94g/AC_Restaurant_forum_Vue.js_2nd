@@ -100,7 +100,7 @@ export default {
         Toast.fire({
           icon: "error",
           title:
-            "Can't get information of this restaurant. Please try again latter.",
+            "Can't get information of this restaurant. Please try again later.",
         });
       }
     },

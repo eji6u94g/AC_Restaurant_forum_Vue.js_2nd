@@ -166,8 +166,7 @@ export default {
       } catch (error) {
         Toast.fire({
           icon: "error",
-          title:
-            "Can't get categories of restaurants. Please try again latter.",
+          title: "Can't get categories of restaurants. Please try again later.",
         });
       }
     },
