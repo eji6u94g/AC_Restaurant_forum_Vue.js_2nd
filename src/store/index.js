@@ -14,7 +14,8 @@ export default new Vuex.Store({
       image: '',
       isAdmin: false
     },
-    isAuthenticated: false
+    isAuthenticated: false,
+    token: ''
   },
   //管理/應用state的method
   mutations: {
@@ -24,17 +25,30 @@ export default new Vuex.Store({
         ...currentUser
       }
       state.isAuthenticated = true
+      state.token = localStorage.getItem('token')
+    },
+    revokeAuthentication(state) {
+      state.currentUser = {}
+      state.isAuthenticated = false
+      state.token = ''
+      localStorage.removeItem('token')
     }
   },
   actions: {
     async fetchCurrentUser({ commit }) {
       try {
         const { data } = await usersAPI.getCurrentUser()
+
         if (data.status === 'error') return new Error(data.message)
+
         const { id, name, email, image, isAdmin } = data
         commit('setCurrentUser', { id, name, email, image, isAdmin })
+
+        return true
       } catch (error) {
         console.error(error.message)
+
+        return false
       }
     }
   },
