@@ -1,42 +1,47 @@
 <template>
   <div class="container py-5">
     <Navtabs />
-    <h1 class="mt-5">美食達人</h1>
-    <hr />
-    <div class="row text-center">
-      <div v-for="user in users" :key="user.id" class="col-3">
-        <a href="#">
-          <img :src="user.image | emptyImage" width="140px" height="140px" />
-        </a>
-        <h2>{{ user.name }}</h2>
-        <span class="badge badge-secondary"
-          >追蹤人數：{{ user.FollowerCount }}</span
-        >
-        <p class="mt-3">
-          <button
-            @click.prevent.stop="unFollowUser(user.id)"
-            v-if="user.isFollowed"
-            type="button"
-            class="btn btn-danger"
+    <Spinner v-if="isLoading" />
+
+    <template v-else>
+      <h1 class="mt-5">美食達人</h1>
+      <hr />
+      <div class="row text-center">
+        <div v-for="user in users" :key="user.id" class="col-3">
+          <a href="#">
+            <img :src="user.image | emptyImage" width="140px" height="140px" />
+          </a>
+          <h2>{{ user.name }}</h2>
+          <span class="badge badge-secondary"
+            >追蹤人數：{{ user.FollowerCount }}</span
           >
-            取消追蹤
-          </button>
-          <button
-            @click.prevent.stop="followUser(user.id)"
-            v-else
-            type="button"
-            class="btn btn-primary"
-          >
-            追蹤
-          </button>
-        </p>
+          <p class="mt-3">
+            <button
+              @click.prevent.stop="unFollowUser(user.id)"
+              v-if="user.isFollowed"
+              type="button"
+              class="btn btn-danger"
+            >
+              取消追蹤
+            </button>
+            <button
+              @click.prevent.stop="followUser(user.id)"
+              v-else
+              type="button"
+              class="btn btn-primary"
+            >
+              追蹤
+            </button>
+          </p>
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
 <script>
 import Navtabs from "../components/Navtabs.vue";
+import Spinner from "../components/Spinner.vue";
 import { emptyImageFilter } from "./../utils/emptyImageFilter";
 import usersAPI from "../apis/users";
 import { Toast } from "../utils/helpers";
@@ -46,15 +51,18 @@ export default {
   mixins: [emptyImageFilter],
   components: {
     Navtabs,
+    Spinner,
   },
   data() {
     return {
       users: [],
+      isLoading: false,
     };
   },
   methods: {
     async fetchUsers() {
       try {
+        this.isLoading = true;
         const res = await usersAPI.getUsersTop();
         if (res.statusText !== "OK") {
           throw new Error(res.statusText);
@@ -66,7 +74,9 @@ export default {
           FollowerCount: user.FollowerCount,
           isFollowed: user.isFollowed,
         }));
+        this.isLoading = false;
       } catch (error) {
+        this.isLoading = false;
         Toast.fire({
           icon: "error",
           title: "Can't get Users information. Please try again later.",
