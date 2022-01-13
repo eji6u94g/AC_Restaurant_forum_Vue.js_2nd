@@ -25,6 +25,8 @@
         :previousPage="previousPage"
         :nextPage="nextPage"
       />
+
+      <div v-if="totalPage.length < 1">此類別目前沒有資料</div>
     </template>
   </div>
 </template>

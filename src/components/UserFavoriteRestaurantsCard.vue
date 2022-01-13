@@ -1,6 +1,8 @@
 <template>
   <div class="card">
-    <div class="card-header"><strong>4</strong> 收藏的餐廳</div>
+    <div class="card-header">
+      <strong>{{ userFavoritedrestaurants.length }}</strong> 收藏的餐廳
+    </div>
     <div class="card-body">
       <router-link
         v-for="restaurant in userFavoritedrestaurants"

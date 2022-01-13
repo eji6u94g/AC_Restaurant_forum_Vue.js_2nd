@@ -1,6 +1,8 @@
 <template>
   <div class="card">
-    <div class="card-header"><strong>32</strong> 已評論餐廳</div>
+    <div class="card-header">
+      <strong>{{ userComments.length }}</strong> 已評論餐廳
+    </div>
     <div class="card-body">
       <router-link
         v-for="comment in userComments"
@@ -23,7 +25,7 @@ import { emptyImageFilter } from "./../utils/emptyImageFilter";
 
 export default {
   name: "UserCommentsCard",
-  mixins:[emptyImageFilter],
+  mixins: [emptyImageFilter],
   props: {
     userComments: {
       type: Array,

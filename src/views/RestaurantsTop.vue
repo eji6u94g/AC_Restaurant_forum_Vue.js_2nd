@@ -28,6 +28,7 @@
               </p>
               <router-link
                 :to="{ name: 'restaurant', params: { id: restaurant.id } }"
+                :disabled="isProcessing"
                 class="btn btn-primary mr-2"
                 >Show</router-link
               >
@@ -35,6 +36,7 @@
               <button
                 v-if="restaurant.isFavorited"
                 @click.prevent.stop="deleteFavorite(restaurant.id)"
+                :disabled="isProcessing"
                 type="button"
                 class="btn btn-danger mr-2"
               >
@@ -43,6 +45,7 @@
               <button
                 v-else
                 @click.prevent.stop="addFavorite(restaurant.id)"
+                :disabled="isProcessing"
                 type="button"
                 class="btn btn-primary"
               >
@@ -84,6 +87,7 @@ export default {
         },
       ],
       isLoading: false,
+      isProcessing: false,
     };
   },
   methods: {
@@ -114,6 +118,7 @@ export default {
     },
     async addFavorite(restaurantId) {
       try {
+        this.isProcessing = true;
         const { data } = await usersAPI.addFavorite({ restaurantId });
         if (data.status !== "success") {
           throw new Error(data.message);
@@ -128,7 +133,9 @@ export default {
             return restaurant;
           }
         });
+        this.isProcessing = false;
       } catch (error) {
+        this.isProcessing = false;
         Toast.fire({
           icon: "error",
           title:
@@ -138,6 +145,7 @@ export default {
     },
     async deleteFavorite(restaurantId) {
       try {
+        this.isProcessing = true;
         const { data } = await usersAPI.deleteFavorite({ restaurantId });
         if (data.status !== "success") {
           throw new Error(data.message);
@@ -152,7 +160,9 @@ export default {
             return restaurant;
           }
         });
+        this.isProcessing = false;
       } catch (error) {
+        this.isProcessing = false;
         Toast.fire({
           icon: "error",
           title:
