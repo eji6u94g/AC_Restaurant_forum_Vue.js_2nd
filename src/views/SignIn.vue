@@ -84,6 +84,8 @@ export default {
           password: this.password,
         });
 
+        console.log(data);
+
         if (data.status !== "success") {
           throw new Error(data.message);
         }
