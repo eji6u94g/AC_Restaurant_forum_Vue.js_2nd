@@ -3,7 +3,7 @@ import Swal from "sweetalert2"
 
 const baseURL = "https://forum-express-api.herokuapp.com/api"
 const axiosInstance = axios.create({
-  baseURL
+  baseURL: baseURL
 })
 
 axiosInstance.interceptors.request.use(
