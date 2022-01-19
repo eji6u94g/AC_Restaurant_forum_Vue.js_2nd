@@ -78,14 +78,13 @@ export default {
         }
 
         this.isProcessing = true;
-
+        console.log("1");
         const { data } = await authorizationAPI.signIn({
           email: this.email,
           password: this.password,
         });
 
-        console.log(data);
-
+        console.log("2");
         if (data.status !== "success") {
           throw new Error(data.message);
         }
@@ -94,8 +93,9 @@ export default {
         //透過vuex setCurrentUser將user info存到vuex
         this.$store.commit("setCurrentUser", data.user);
 
-        this.$router.push("restaurants");
+        this.$router.push("/restaurants");
       } catch (e) {
+        console.log("3");
         this.isProcessing = false;
         this.password = "";
         Toast.fire({
