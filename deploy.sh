@@ -22,6 +22,6 @@ git branch -M main
 
 # if you are deploying to https://<USERNAME>.Github.io/<REPO>
 # git push -f https://github.com/<USERNAME>/<REPO>.git main:gh-pages
-git push -f https://github.com/eji6u94g/forum-front-end-vue.git main:gh-pages
+git push -f https://github.com/eji6u94g/forum-front-end-vue2.git main:gh-pages
 
 cd -

@@ -65,6 +65,7 @@ import Spinner from "../components/Spinner.vue";
 import { emptyImageFilter } from "./../utils/emptyImageFilter";
 import restaurantsAPI from "../apis/restaurants";
 import usersAPI from "../apis/users";
+import imgAPI from "../apis/imgs";
 import { Toast } from "../utils/helpers";
 
 export default {
@@ -94,18 +95,33 @@ export default {
     async fetchRestaurants() {
       try {
         this.isLoading = true;
+
         const res = await restaurantsAPI.getRestaurantsTop();
         if (res.statusText !== "OK") {
           throw new Error(res.statusText);
         }
-        this.restaurants = res.data.restaurants.map((restaurant) => ({
-          id: restaurant.id,
-          image: restaurant.image,
-          name: restaurant.name,
-          FavoriteCount: restaurant.FavoriteCount,
-          description: restaurant.description,
-          isFavorited: restaurant.isFavorited,
-        }));
+
+        const { response, status } = await imgAPI.getRandom({
+          query: "restaurant",
+          count: res.data.restaurants.length,
+        });
+        if (status !== 200) {
+          throw new Error();
+        }
+
+        let i = -1;
+        this.restaurants = res.data.restaurants.map((restaurant) => {
+          i += 1
+          return ({
+            id: restaurant.id,
+            name: restaurant.name,
+            image: response[i].urls.small,
+            FavoriteCount: restaurant.FavoriteCount,
+            description: restaurant.description,
+            isFavorited: restaurant.isFavorited,
+          });
+        });
+
         this.isLoading = false;
       } catch (error) {
         this.isLoading = false;

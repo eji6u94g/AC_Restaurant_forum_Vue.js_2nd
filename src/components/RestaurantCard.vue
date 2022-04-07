@@ -3,12 +3,13 @@
     <div class="card mb-4">
       <img
         class="card-img-top"
-        :src="restaurant.image | emptyImage"
+        :src="restaurant.image"
         alt="Card image cap"
         width="286px"
         height="180px"
       />
       <div class="card-body">
+        <span></span>
         <p class="card-text title-wrap">
           <router-link
             :to="{ name: 'restaurant', params: { id: restaurant.id } }"
@@ -83,6 +84,7 @@ export default {
     return {
       restaurant: this.initialRestaurant,
       isProcessing: false,
+      imgurl: "",
     };
   },
   methods: {
