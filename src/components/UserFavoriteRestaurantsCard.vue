@@ -9,12 +9,7 @@
         :key="restaurant.id"
         :to="{ name: 'restaurant', params: { id: restaurant.id } }"
       >
-        <img
-          :src="restaurant.image | emptyImage"
-          width="60"
-          height="60"
-          class="avatar"
-        />
+        <img :src="restaurant.image | emptyImageFilter" width="60" height="60" class="avatar" />
       </router-link>
     </div>
   </div>

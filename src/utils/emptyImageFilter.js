@@ -1,7 +1,12 @@
 export const emptyImageFilter = {
   filters: {
-    emptyImage(src) {
-      return src | 'https://via.placeholder.com/350x220/DFDFDF?text=No+Image'
+    emptyImageFilter(src) {
+      console.log(src)
+      if (src !== null) {
+        return src
+      } else {
+        return 'https://via.placeholder.com/350x220/DFDFDF?text=No+Image'
+      }
     }
   }
 }

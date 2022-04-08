@@ -38,7 +38,6 @@ import RestaurantsNavPills from "../components/RestaurantsNavPills.vue";
 import RestaurantsPagination from "../components/RestaurantsPagination.vue";
 import Spinner from "../components/Spinner.vue";
 import restaurantsAPI from "../apis/restaurants";
-import imgAPI from "../apis/imgs";
 import { Toast } from "../utils/helpers";
 
 export default {
@@ -92,22 +91,7 @@ export default {
           next,
         } = res.data;
 
-        const { response, status } = await imgAPI.getRandom({
-          query: "restaurant",
-          count: restaurants.length,
-        });
-        if (status !== 200) {
-          throw new Error();
-        }
-        console.log(response);
-        let i = -1;
-        this.restaurants = restaurants.map((restaurant) => {
-          i += 1;
-          return {
-            ...restaurant,
-            image: response[i].urls.small,
-          };
-        });
+        this.restaurants = restaurants;
         this.categories = categories;
         this.categoryId = categoryId;
         this.currentPage = page;

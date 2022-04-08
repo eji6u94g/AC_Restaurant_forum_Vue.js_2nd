@@ -69,6 +69,7 @@ export default {
       try {
         const { data, statusText } = await usersAPI.getUserInfo({ userId });
         if (statusText !== "OK") return new Error(statusText);
+
         const { profile, isFollowed } = data;
         this.profile.id = profile.id;
         this.profile.name = profile.name;

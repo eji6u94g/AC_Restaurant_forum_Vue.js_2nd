@@ -72,13 +72,13 @@ export default {
         const {
           id,
           name,
-          image,
           Category,
           opening_hours: openingHours,
           tel,
           address,
           description,
           Comments,
+          image,
         } = restaurant;
 
         this.restaurant = {

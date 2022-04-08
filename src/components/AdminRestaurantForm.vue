@@ -83,7 +83,7 @@
       <label for="image">Image</label>
       <img
         v-if="restaurant.image"
-        :src="restaurant.image"
+        :src="restaurant.image | emptyImageFilter"
         class="d-block img-thumbnail mb-3"
         width="200"
         height="200"

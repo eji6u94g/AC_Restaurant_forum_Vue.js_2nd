@@ -14,7 +14,13 @@
         <div class="row no-gutters">
           <div class="col-md-4">
             <a href="#">
-              <img class="card-img" :src="restaurant.image | emptyImage" />
+              <img
+                class="card-img-top"
+                :src="restaurant.image | emptyImageFilter"
+                alt="Card image cap"
+                width="286px"
+                height="180px"
+              />
             </a>
           </div>
           <div class="col-md-8">
@@ -65,7 +71,6 @@ import Spinner from "../components/Spinner.vue";
 import { emptyImageFilter } from "./../utils/emptyImageFilter";
 import restaurantsAPI from "../apis/restaurants";
 import usersAPI from "../apis/users";
-import imgAPI from "../apis/imgs";
 import { Toast } from "../utils/helpers";
 
 export default {
@@ -96,32 +101,12 @@ export default {
       try {
         this.isLoading = true;
 
-        const res = await restaurantsAPI.getRestaurantsTop();
-        if (res.statusText !== "OK") {
-          throw new Error(res.statusText);
+        const { data, statusText } = await restaurantsAPI.getRestaurantsTop();
+        if (statusText !== "OK") {
+          throw new Error(statusText);
         }
 
-        const { response, status } = await imgAPI.getRandom({
-          query: "restaurant",
-          count: res.data.restaurants.length,
-        });
-        if (status !== 200) {
-          throw new Error();
-        }
-
-        let i = -1;
-        this.restaurants = res.data.restaurants.map((restaurant) => {
-          i += 1
-          return ({
-            id: restaurant.id,
-            name: restaurant.name,
-            image: response[i].urls.small,
-            FavoriteCount: restaurant.FavoriteCount,
-            description: restaurant.description,
-            isFavorited: restaurant.isFavorited,
-          });
-        });
-
+        this.restaurants = { ...data.restaurants };
         this.isLoading = false;
       } catch (error) {
         this.isLoading = false;

@@ -9,7 +9,7 @@
       <div class="row text-center">
         <div v-for="user in users" :key="user.id" class="col-3">
           <a href="#">
-            <img :src="user.image | emptyImage" width="140px" height="140px" />
+            <img :src="user.image | emptyImageFilter" width="140px" height="140px" />
           </a>
           <h2>{{ user.name }}</h2>
           <span class="badge badge-secondary"

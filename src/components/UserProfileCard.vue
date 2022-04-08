@@ -2,7 +2,7 @@
   <div class="card mb-3">
     <div class="row no-gutters">
       <div class="col-md-4">
-        <img :src="profile.image | emptyImage" width="300px" height="300px" />
+        <img :src="profile.image | emptyImageFilter" width="300px" height="300px" />
       </div>
       <div class="col-md-8">
         <div class="card-body">
