@@ -6,35 +6,35 @@
 
 # Online demo
 
-## Link : [Click to web page](https://eji6u94g.github.io/forum-front-end-vue2/#/restaurants)
+### Link : [Click to web page](https://eji6u94g.github.io/forum-front-end-vue2/#/restaurants)
 
 <br>
 
-## Test account :
+### Test account :
 
-### 1. Administrator
+#### 1. Administrator
 
-#### account :
+##### account :
 
 ```
 root@example.com
 ```
 
-#### Password :
+##### Password :
 
 ```
 12345678
 ```
 
-### 2. User
+#### 2. User
 
-#### account :
+##### account :
 
 ```
 user1@example.com
 ```
 
-#### Password :
+##### Password :
 
 ```
 12345678
@@ -44,25 +44,25 @@ user1@example.com
 
 # Project setup for running locally
 
-## Step 1 .Please clone the project
+### Step 1 .Please clone the project
 
 ```
 git clone
 ```
 
-## Step 2 . Project Setup
+### Step 2 . Project Setup
 
 ```
 npm install
 ```
 
-## Step 3. Project Run
+### Step 3. Project Run
 
 ```
 npm run serve
 ```
 
-## Step 4. Login with test account
+### Step 4. Login with test account
 
 <br>
 
@@ -81,14 +81,14 @@ npm run serve
 <br>
 
 # Function
-## User:
+### User
 - Account registration and login
 - Filter restaurant with category
 - Check information of single restaurant and its comments
 - Like and add restaurants to favorite list and leave comments
 - Check and follow other users
 - Edit account information
-## Administrator
+### Administrator
 - Add a new restaurant
 - Edit and delete a restaurant
 - Add, edit and delete a category
